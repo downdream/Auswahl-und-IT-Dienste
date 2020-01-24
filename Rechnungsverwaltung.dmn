@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="Definitions_1xkhuzk" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
+  <decision id="Auftrag" name="Auftragsbestätigung">
+    <extensionElements>
+      <biodi:bounds x="315" y="124" width="180" height="80" />
+      <biodi:edge source="InputData_09mle26">
+        <biodi:waypoints x="554" y="339" />
+        <biodi:waypoints x="465" y="204" />
+      </biodi:edge>
+      <biodi:edge source="InputData_0scufe0">
+        <biodi:waypoints x="218" y="343" />
+        <biodi:waypoints x="348" y="204" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_0scufe0" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_09mle26" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_1">
+      <input id="InputClause_0s4iogd" label="Wann wurde bezahlt?">
+        <inputExpression id="LiteralExpression_0qaoo7i" typeRef="integer">
+          <text>datum</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_066cd2s" label="Status der Bezahlung">
+        <inputExpression id="LiteralExpression_04v8rfz" typeRef="string">
+          <text>status</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1gwkz39">
+          <text>"Vollkommen bezahlt","Teilweise bezahlt","Gar nicht bezahlt"</text>
+        </inputValues>
+      </input>
+      <output id="output_1" label="Bezahlbestätigung" name="bestätigung" typeRef="string">
+        <outputValues id="UnaryTests_0fsclsy">
+          <text>"Skonto","Zahlungsziel","Mahnlauf","Zahlungsverzug","offen","teilweise","teilweise offen"</text>
+        </outputValues>
+      </output>
+      <rule id="DecisionRule_02in17r">
+        <inputEntry id="UnaryTests_05js0tt">
+          <text>&lt;14</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lqtg3u">
+          <text>"Vollkommen bezahlt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xgoeie">
+          <text>"Zahlung abgeschlossen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1cl4tke">
+        <inputEntry id="UnaryTests_178so8m">
+          <text>&lt;14</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p0y83u">
+          <text>"Teilweise bezahlt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_099vyxt">
+          <text>"Zahlung unvollständig"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1bsc7e1">
+        <inputEntry id="UnaryTests_1q8o8xx">
+          <text>&lt;14</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_060t9ha">
+          <text>"Gar nicht bezahlt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ulnco3">
+          <text>"offen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0n92e0a">
+        <inputEntry id="UnaryTests_1wk3vue">
+          <text>&gt;14</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ndp5cd">
+          <text>"Gar nicht bezahlt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0dix935">
+          <text>"Mahnlauf eingeleitet"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0scufe0" name="Wann wurde bezahlt?">
+    <extensionElements>
+      <biodi:bounds x="156" y="343" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_09mle26" name="Status der Bezahlung">
+    <extensionElements>
+      <biodi:bounds x="519" y="339" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+</definitions>
